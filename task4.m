@@ -1,6 +1,5 @@
 clf, clc, clearvars, close all
-
-x = logspace(-2, 2, 100000);
+x = logspace(-2, 2, 10000);
 y = (exp(x)./x.^2 )-(x.^3);
 
 % Maximum error method 1 4.*exp(x) ./ (exp(x) - x.^5)
@@ -33,22 +32,25 @@ rel_error_a2 = abs(abs_error_a2 ./ y);
 
 
 sgtitle('Task 4') 
-% Plot errors
-subplot(1,2,1)
+
+% Plot errors for A1
+subplot(2,1,1)
 hold on;
 plot(x, rel_error_a1, 'Color', 'red', 'LineWidth', 1.5);
 plot(x, max_rel_error_a1, 'Color', 'blue', 'LineWidth',1.5);
-xscale('log')
-yscale('log')
-legend('real error', 'maximum error'), xlabel('x'), ylabel('σ'), title('A1')
+set(gca, 'XScale', 'log', 'YScale', 'log');
+legend('real error', 'maximum error'), xlabel('x'), ylabel('δ'), title('A1')
 hold off
 
-
-subplot(1,2,2)
+% Plot errors for A2
+subplot(2,1,2)
 hold on;
 plot(x, rel_error_a2, 'Color', 'red', 'LineWidth', 1.5);
 plot(x, max_rel_error_a2, 'Color', 'blue', 'LineWidth',1.5);
-xscale('log')
-yscale('log')
-legend('real error', 'maximum error'), xlabel('x'), ylabel('σ'), title('A2')
+set(gca, 'XScale', 'log', 'YScale', 'log');
+legend('real error', 'maximum error'), xlabel('x'), ylabel('δ'), title('A2')
 hold off
+
+
+% Save A2 plot as a JPEG file
+exportgraphics(gcf, 'Task4A2Plot.jpg', 'Resolution', 2000);
