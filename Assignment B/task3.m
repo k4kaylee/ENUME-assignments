@@ -2,7 +2,7 @@ clc, clearvars, close all
 
 Nx = 100;
 R = 100;
-Nsigma = 10;
+Nsigma = 100;
 Knum = 5;
 Xmax = 1;
 K_values = round(linspace(2, 8, Knum))';
@@ -21,37 +21,39 @@ for i = 1:length(sigma_sq_values)
         Phi = get_phi(x_values, K);
         e_sum = 0;
         for r = 1:R
-            delta = randn(1, Nx)' * sqrt(sigma_sq);
+            delta = sqrt(sigma_sq) * randn(1, Nx)';
             y_cor_values = y_values + delta;
             p_values = Phi \ y_cor_values;
             yp_values = Phi * p_values;
             
             e_sum = e_sum + get_e(y_values, yp_values);
         end
-        expected_e_values(i, j) = sqrt(e_sum ./ R);
+        expected_e_values(j, i) = sqrt(e_sum ./ R);
     end
 end
 
+% Plotting
 colors = {'b', 'g', 'r', 'c', 'm'}; 
 
+
 for k = 1:Knum
-  plot(sigma_sq_values, expected_e_values(k, :), colors{k}, 'DisplayName', ['K = ', num2str(K_values(k))]);
+  plot(sigma_sq_values, expected_e_values(k, :), colors{k}, 'DisplayName', ['K = ', num2str(K_values(k))], 'LineWidth', 1.5);
   hold on;
 end
 
+set(gca, 'FontSize', 18);
 
-xlabel('\sigma^2');
-ylabel('e');
-title('Task 3');
+
+xlabel('$\sigma^2$', 'Interpreter', 'latex', 'FontSize', 30);
+ylabel('$\bar{e}$', 'Interpreter', 'latex', 'FontSize', 30);
+title('Task 3', 'Interpreter', 'latex', 'FontSize', 30);
 xscale("log");
 yscale("log");
 
 
-legend('show');
+legend('show', 'Location', 'SouthEast');
 
 grid on;
 
-
-function e = get_e(y_values, yp_values)
-    e = sum(yp_values - y_values);
-end
+set(gcf, 'Position', [0 0 1600 900]);
+saveas(gcf, 'task3.jpg');

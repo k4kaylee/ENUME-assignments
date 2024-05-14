@@ -1,11 +1,9 @@
-function phi = get_phi(x_vec, k)
-    phi = zeros(length(x_vec), k+1);
+function phi = get_phi(x_values, k)
+    phi = zeros(length(x_values), k+1);
     
-    for i = 1:length(x_vec)
+    for i = 1:length(x_values)
         for j = 1:k+1
-            phi(i, j) = x_vec(i)^(j-1);
-            %fprintf('%d ', phi(i, j)); % for test purpose
+            phi(i, j) = x_values(i)^(j-1);
         end
-        %fprintf('\n'); % for test purpose
     end
 end
